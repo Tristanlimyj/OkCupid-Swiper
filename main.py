@@ -44,21 +44,40 @@ if re.match('https://www.okcupid.com/login', url):
     except Exception as e:
         pass
 # Wait for the Page to load
-WebDriverWait(driver, 5).until(
+WebDriverWait(driver, 20).until(
     EC.presence_of_element_located((By.CLASS_NAME, 'stacks-menu'))
 )
 
-# To get all the categories
+counter = 0
+first_loop = True
 categories = driver.find_elements_by_class_name('stacks-menu-item')
 
-for category in categories:
-    category.click()
+while True:
+    categories = driver.find_elements_by_class_name('stacks-menu-item')
+
+    for index, category in enumerate(categories):
+        if counter == 0 and first_loop: 
+            first_loop = False
+            break
+        # Check which is active
+        if 'isActive' in category.get_attribute("class"): 
+            counter = index + 1
+            break
+    # select the next one after current active one
+    if counter == len(categories):
+        break
+    else:
+        categories[counter].click()
     while True:
-        sleep_time = random.randint(1,2)
-        time.sleep(sleep_time)
         try:
-            like_btn = driver.find_element_by_css_selector("button.likes-pill-button")
+            like_btn = WebDriverWait(driver, 20).until(
+                EC.presence_of_element_located((By.CLASS_NAME, 'likes-pill-button'))
+            )
             like_btn.click()
         except:
-            break
+            try:
+                exit_btn = driver.find_element_by_css_selector("button.connection-view-container-close-button")
+                exit_btn.click()
+            except:
+                break
 driver.close()

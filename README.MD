@@ -5,7 +5,9 @@ A swiper to automate the swiping process
 
 ## Demo
 
+<div align='center'>
 <img src="./okc_swiper.gif"/>
+</div>
 
 ## Description
 

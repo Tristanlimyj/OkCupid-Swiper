@@ -1,6 +1,7 @@
 # OKCupid Swiper
 
 Built Using: Selenium, Python
+
 A swiper to automate the swiping process
 
 ## Demo
